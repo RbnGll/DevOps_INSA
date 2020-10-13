@@ -125,5 +125,8 @@
       }
     }
   },
-  "defaultProject": "spoon-frontend"
+  "defaultProject": "spoon-frontend",
+  "cli": {
+    "analytics": false
+  }
 }
