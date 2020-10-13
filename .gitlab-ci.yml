@@ -2,6 +2,7 @@ build-back:
   image: maven:3.6.2-jdk-11
   stage: build
   script:
+  - ls -lia
   - cd devops-spoon-web
   - cd spoon-backend
   - mvn clean package
