@@ -1,0 +1,17 @@
+build-back:
+  image: maven:3.6.2-jdk-11
+  stage: build
+  script:
+  - cd devops-spoon-web
+    - cd spoon-backend
+    - mvn clean package
+
+build-front:
+  image: node:12.13
+  stage: build
+  script:
+  - cd devops-spoon-web
+    - cd spoon-frontend
+    - npm install
+    - npm run ng build
+
