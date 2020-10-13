@@ -43,10 +43,12 @@
             DIV_ASSIGN, EQUAL, GE, GT, LAMBDA, LAND, LCURLY, LE, LOR, LT, MINUS, MINUS_ASSIGN, MOD, MOD_ASSIGN, NOT_EQUAL, PLUS, PLUS_ASSIGN, QUESTION,
             SL, SLIST, SL_ASSIGN, SR, SR_ASSIGN, STAR, STAR_ASSIGN, LITERAL_ASSERT, TYPE_EXTENSION_AND"/>
         </module>
+        <!--
         <module name="RegexpSinglelineJava">
             <property name="format" value="while"/>
             <property name="ignoreComments" value="true"/>
         </module>
+        -->
         <module name="LeftCurly"/>
         <module name="RightCurly"/>
         <module name="NeedBraces"/>
@@ -64,7 +66,7 @@
         <module name="NoFinalizer"/>
         <module name="ParameterAssignment"/>
         <module name="CyclomaticComplexity">
-            <property name="max" value="10"/>
+            <property name="max" value="14"/>
             <property name="switchBlockAsSingleDecisionPoint" value="true"/>
         </module>
 

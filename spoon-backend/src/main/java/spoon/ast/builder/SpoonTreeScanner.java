@@ -38,6 +38,7 @@ import spoon.reflect.visitor.CtScanner;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -170,7 +171,7 @@ public class SpoonTreeScanner extends CtScanner {
         // So looking for this interface. If not found, the current class is used.
         final Class<?> cl = Arrays
                 .stream(elt.getClass().getInterfaces())
-                .filter(interf -> simpleName.equals(interf.getSimpleName() + "Impl"))
+                .filter(interf -> Objects.equals(simpleName, interf.getSimpleName() + "Impl"))
                 .findFirst()
                 .orElse(elt.getClass());
 
