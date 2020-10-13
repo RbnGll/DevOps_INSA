@@ -3,8 +3,8 @@ build-back:
   stage: build
   script:
   - cd devops-spoon-web
-    - cd spoon-backend
-    - mvn clean package
+  - cd spoon-backend
+  - mvn clean package
 
 build-front:
   image: node:12.13
