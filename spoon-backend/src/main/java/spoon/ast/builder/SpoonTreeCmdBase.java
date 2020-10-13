@@ -21,7 +21,6 @@
  */
 package spoon.ast.builder;
 
-import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import spoon.Launcher;
@@ -31,113 +30,121 @@ import spoon.compiler.Environment;
 import spoon.reflect.CtModel;
 import spoon.support.compiler.VirtualFile;
 
+import java.util.Optional;
+
 /**
  * Base class for commands that analyses Java code to extract its Spoon tree.
  */
 public class SpoonTreeCmdBase {
-	/** The Java code to analyse. */
-	private @Nullable String code;
-	/** Hides or not the implicit Spoon elements. */
-	private final boolean hideImplicit;
-	/** The analysis level to consider. */
-	private final @NotNull TreeLevel treeLevel;
+    /**
+     * Hides or not the implicit Spoon elements.
+     */
+    private final boolean hideImplicit;
+    /**
+     * The analysis level to consider.
+     */
+    private final @NotNull TreeLevel treeLevel;
+    /**
+     * The Java code to analyse.
+     */
+    private @Nullable String code;
+    private @NotNull Optional<SpoonAST> spoonAST;
 
-	private @NotNull Optional<SpoonAST> spoonAST;
+    public SpoonTreeCmdBase(final boolean hideImplicit, final @NotNull String code, final @NotNull TreeLevel treeLevel) {
+        super();
+        this.hideImplicit = hideImplicit;
+        this.treeLevel = treeLevel;
+        this.code = code;
+        spoonAST = Optional.empty();
+    }
 
-	public SpoonTreeCmdBase(final boolean hideImplicit, final @NotNull String code, final @NotNull TreeLevel treeLevel) {
-		super();
-		this.hideImplicit = hideImplicit;
-		this.treeLevel = treeLevel;
-		this.code = code;
-		spoonAST = Optional.empty();
-	}
+    public @NotNull Optional<SpoonAST> execute() {
+        switch (treeLevel) {
+            case AUTO:
+                buildClassLevel();
+                break;
+            case CLASS_ELEMENT:
+                buildClassElementLevel();
+                break;
+            case STATEMENT:
+                buildStatementLevel();
+                break;
+            case EXPRESSION:
+                buildExpressionLevel();
+                break;
+        }
 
-	public @NotNull Optional<SpoonAST> execute() {
-		switch(treeLevel) {
-			case AUTO:
-				buildClassLevel();
-				break;
-			case CLASS_ELEMENT:
-				buildClassElementLevel();
-				break;
-			case STATEMENT:
-				buildStatementLevel();
-				break;
-			case EXPRESSION:
-				buildExpressionLevel();
-				break;
-		}
+        return spoonAST;
+    }
 
-		return spoonAST;
-	}
+    /**
+     * Tries to build a Spoon model.
+     *
+     * @param theCode        The code to analyse.
+     * @param levelsToIgnore The number of levels not to display (depends on the analysis level).
+     * @return The Spoon model.
+     */
+    @NotNull CtModel buildCode(final String theCode, final int levelsToIgnore) {
+        final Launcher launcher = new Launcher();
+        final Environment env = launcher.getEnvironment();
 
-	/**
-	 * Tries to build a Spoon model.
-	 * @param theCode The code to analyse.
-	 * @param levelsToIgnore The number of levels not to display (depends on the analysis level).
-	 * @return The Spoon model.
-	 */
-	@NotNull CtModel buildCode(final String theCode, final int levelsToIgnore) {
-		final Launcher launcher = new Launcher();
-		final Environment env = launcher.getEnvironment();
+        launcher.addInputResource(new VirtualFile(theCode, "chunk.java"));
+        env.setNoClasspath(true);
+        env.setAutoImports(true);
+        env.disableConsistencyChecks();
+        env.setLevel("OFF");
+        env.setComplianceLevel(11);
 
-		launcher.addInputResource(new VirtualFile(theCode, "chunk.java"));
-		env.setNoClasspath(true);
-		env.setAutoImports(true);
-		env.disableConsistencyChecks();
-		env.setLevel("OFF");
-		env.setComplianceLevel(11);
+        final var tree = new TreePrinter(levelsToIgnore);
+        launcher.buildModel().getRootPackage().accept(new SpoonTreeScanner(tree, hideImplicit));
 
-		final var tree = new TreePrinter(levelsToIgnore);
-		launcher.buildModel().getRootPackage().accept(new SpoonTreeScanner(tree, hideImplicit));
+        spoonAST = tree.getTree();
 
-		spoonAST = tree.getTree();
+        return launcher.getModel();
+    }
 
-		return launcher.getModel();
-	}
+    /**
+     * Tries to build the Spoon model by considering the given code as a Java expression.
+     */
+    void buildExpressionLevel() {
+        buildCode("public class ShowMeYourSpoonCapsule { public Object showmeyourspoonmethod() { return "
+                + code + ";}}", 5);
+    }
 
-	/**
-	 * Tries to build the Spoon model by considering the given code as a Java expression.
-	 */
-	void buildExpressionLevel() {
-		buildCode("public class ShowMeYourSpoonCapsule { public Object showmeyourspoonmethod() { return "
-			+ code + ";}}", 5);
-	}
+    /**
+     * Tries to build the Spoon model by considering the given code as a Java statement.
+     */
+    @NotNull CtModel buildStatementLevel() {
+        return buildCode("public class ShowMeYourSpoonCapsule { public void showmeyourspoonmethod() {" + code + "}}", 4);
+    }
 
-	/**
-	 * Tries to build the Spoon model by considering the given code as a Java statement.
-	 */
-	@NotNull CtModel buildStatementLevel() {
-		return buildCode("public class ShowMeYourSpoonCapsule { public void showmeyourspoonmethod() {" + code + "}}", 4);
-	}
+    /**
+     * Tries to build the Spoon model by considering the given code as Java class elements.
+     */
+    @NotNull CtModel buildClassElementLevel() {
+        return buildCode("public class ShowMeYourSpoonCapsule { " + code + "}", 2);
+    }
 
-	/**
-	 * Tries to build the Spoon model by considering the given code as Java class elements.
-	 */
-	@NotNull CtModel buildClassElementLevel() {
-		return buildCode("public class ShowMeYourSpoonCapsule { " + code + "}", 2);
-	}
+    /**
+     * Tries to build the Spoon model by considering the given code as a Java class.
+     */
+    void buildClassLevel() {
+        CtModel model = buildCode(code, 1);
 
-	/**
-	 * Tries to build the Spoon model by considering the given code as a Java class.
-	 */
-	void buildClassLevel() {
-		CtModel model = buildCode(code, 1);
+        if (model.getAllTypes().isEmpty()) {
+            model = buildClassElementLevel();
+        }
 
-		if(model.getAllTypes().isEmpty()) {
-			model = buildClassElementLevel();
-		}
+        if (model.getAllTypes().isEmpty()) {
+            model = buildStatementLevel();
+        }
 
-		if(model.getAllTypes().isEmpty()) {
-			model = buildStatementLevel();
-		}
+        if (model.getAllTypes().isEmpty()) {
+            buildExpressionLevel();
+        }
+    }
 
-		if(model.getAllTypes().isEmpty()) {
-			buildExpressionLevel();
-		}
-	}
-
-	public void setCode(final @NotNull String code) {
-		this.code = code;
-	}
+    public void setCode(final @NotNull String code) {
+        this.code = code;
+    }
 }

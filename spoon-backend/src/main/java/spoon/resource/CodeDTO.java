@@ -7,32 +7,32 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class CodeDTO {
-	String code;
-	String level;
+    String code;
+    String level;
 
-	CodeDTO() {
-		super();
-	}
+    CodeDTO() {
+        super();
+    }
 
-	public CodeDTO(final String code, final String level) {
-		super();
-		this.code = code;
-		this.level = level;
-	}
+    public CodeDTO(final String code, final String level) {
+        super();
+        this.code = code;
+        this.level = level;
+    }
 
-	public String getCode() {
-		return code;
-	}
+    public String getCode() {
+        return code;
+    }
 
-	public void setCode(final String code) {
-		this.code = code;
-	}
+    public void setCode(final String code) {
+        this.code = code;
+    }
 
-	public String getLevel() {
-		return level;
-	}
+    public String getLevel() {
+        return level;
+    }
 
-	public void setLevel(final String level) {
-		this.level = level;
-	}
+    public void setLevel(final String level) {
+        this.level = level;
+    }
 }

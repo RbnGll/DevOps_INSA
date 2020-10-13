@@ -21,28 +21,30 @@
  */
 package spoon.ast.builder;
 
-import java.util.List;
 import org.jetbrains.annotations.NotNull;
 import spoon.reflect.declaration.CtElement;
+
+import java.util.List;
 
 /**
  * Base class for visiting Spoon AST for our visualisation purpose.
  */
 public abstract class SpoonElementVisitor {
-	final int levelsToIgnore;
+    final int levelsToIgnore;
 
-	SpoonElementVisitor(final int levelsToIgnore) {
-		super();
-		this.levelsToIgnore = levelsToIgnore;
-	}
+    SpoonElementVisitor(final int levelsToIgnore) {
+        super();
+        this.levelsToIgnore = levelsToIgnore;
+    }
 
-	/**
-	 * Visits the given Spoon element
-	 * @param elt The spoon element to visit.
-	 * @param level The depth level.
-	 * @param label The title text that corresponds to the given element
-	 * @param linesPosition The line positions of the given element
-	 */
-	public abstract void visitElement(final CtElement elt, final int level, final @NotNull TreeNodeLabel label,
-		final List<Integer> linesPosition);
+    /**
+     * Visits the given Spoon element
+     *
+     * @param elt           The spoon element to visit.
+     * @param level         The depth level.
+     * @param label         The title text that corresponds to the given element
+     * @param linesPosition The line positions of the given element
+     */
+    public abstract void visitElement(final CtElement elt, final int level, final @NotNull TreeNodeLabel label,
+                                      final List<Integer> linesPosition);
 }

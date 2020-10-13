@@ -27,38 +27,42 @@ import java.util.Optional;
  * The level of analysis to perform by Spoon
  */
 public enum TreeLevel {
-	AUTO {
-		@Override
-		public String toString() {
-			return "Auto";
-		}
-	},
-	CLASS_ELEMENT {
-		@Override
-		public String toString() {
-			return "Class element";
-		}
-	},
-	STATEMENT {
-		@Override
-		public String toString() {
-			return "Statement";
-		}
-	},
-	EXPRESSION {
-		@Override
-		public String toString() {
-			return "Expression";
-		}
-	};
+    AUTO {
+        @Override
+        public String toString() {
+            return "Auto";
+        }
+    },
+    CLASS_ELEMENT {
+        @Override
+        public String toString() {
+            return "Class element";
+        }
+    },
+    STATEMENT {
+        @Override
+        public String toString() {
+            return "Statement";
+        }
+    },
+    EXPRESSION {
+        @Override
+        public String toString() {
+            return "Expression";
+        }
+    };
 
-	public static Optional<TreeLevel> from(final String value) {
-		switch(value) {
-			case "a": return Optional.of(AUTO);
-			case "s": return Optional.of(STATEMENT);
-			case "x": return Optional.of(EXPRESSION);
-			case "e": return Optional.of(CLASS_ELEMENT);
-		}
-		return Optional.empty();
-	}
+    public static Optional<TreeLevel> from(final String value) {
+        switch (value) {
+            case "a":
+                return Optional.of(AUTO);
+            case "s":
+                return Optional.of(STATEMENT);
+            case "x":
+                return Optional.of(EXPRESSION);
+            case "e":
+                return Optional.of(CLASS_ELEMENT);
+        }
+        return Optional.empty();
+    }
 }
