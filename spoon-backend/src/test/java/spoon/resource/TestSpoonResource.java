@@ -11,14 +11,15 @@ import javax.ws.rs.client.Client;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.Response;
+import java.net.HttpURLConnection;
 import java.net.URI;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
-public class SpoonResourceTest {
-    static final Logger log = Logger.getLogger(SpoonResourceTest.class.getSimpleName());
+public class TestSpoonResource {
+    static final Logger log = Logger.getLogger(TestSpoonResource.class.getSimpleName());
 
     static {
         System.setProperty("jersey.config.test.container.port", "0");
@@ -54,5 +55,15 @@ public class SpoonResourceTest {
 
         assertThat(res.getStatus()).isEqualTo(Response.Status.OK.getStatusCode());
         assertThat(spoonAST).isNotNull();
+    }
+
+    @Test
+    void testCreateASTThrowsWebApplicationException(final Client client, final URI baseUri) {
+        final Response res = client.
+                target(baseUri)
+                .path("spoon/ast")
+                .request()
+                .post(Entity.json(new CodeDTO("","anything")));
+        assertThat(res.getStatus()).isEqualTo(HttpURLConnection.HTTP_INTERNAL_ERROR);
     }
 }
