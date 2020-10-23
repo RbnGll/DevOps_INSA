@@ -28,5 +28,12 @@ describe('AppComponent', () => {
     const compiled = fixture.nativeElement;
     expect(compiled.querySelector('h1').textContent).toContain('Spoon AST visualiser');
   });
+
+  it('should render app-ast', () => {
+    const fixture = TestBed.createComponent(AppComponent);
+    fixture.detectChanges();
+    const compiled = fixture.nativeElement;
+    expect(compiled.querySelector('app-ast')).toBeTruthy();
+  });
 });
 
