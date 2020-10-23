@@ -80,8 +80,9 @@ public class SpoonASTImpl implements SpoonAST {
     }
 
     @Override
-    public void setParent(final @Nullable SpoonAST node) {
-        if (parent.orElse(null) != node) {
+    public void setParent(final @Nullable SpoonAST node) throws NullPointerException {
+    //  if (parent.orElse(null) != node) {
+        if (parent.isPresent() && parent.get() != node) {
             parent.ifPresent(p -> p.removeChild(this));
             parent = Optional.ofNullable(node);
             if (node != null) {

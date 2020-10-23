@@ -8,6 +8,8 @@ import spoon.ast.api.SpoonAST;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -98,11 +100,44 @@ public class TestSpoonASTImpl {
         assertThat(spoonAST.getChildren().get(0)).isEqualTo(child);
     }
 
+
     @Test
     void testAddChildOK() {
-        spoonAST.setParent(parent);
-        spoonAST.addChild(new SpoonASTImpl());
+        spoonAST.addChild(child);
         assertThat(spoonAST.getChildren().size()).isEqualTo(1);
         assertThat(spoonAST.getChildren().get(0)).isEqualTo(child);
+        assertThat(child.getParent()).isPresent();
+        assertThat(child.getParent().get()).isEqualTo(spoonAST);
+    }
+
+    // @Test
+    // void testAddChildren() {
+    //     List<SpoonAST> children = Stream.of(
+    //             child,
+    //             new SpoonASTImpl("child2","tooltipchild2",2,10),
+    //             new SpoonASTImpl("child3","tooltipchild3",3,10)
+    //     ).collect(Collectors.toList());
+
+    //     children.forEach(spoonAST1 -> spoonAST.addChild(spoonAST1));
+    //     assertThat(spoonAST.getChildren().size()).isEqualTo(3);
+    //     children.forEach(spoonAST1 -> assertThat(spoonAST1.getParent()).isPresent());
+    //     children.forEach(spoonAST1 -> assertThat(spoonAST1.getParent().get()).isEqualTo(spoonAST));
+    // }
+
+    @Test
+    void testAddNullChild() {
+        assertThrows(IllegalArgumentException.class, () -> spoonAST.addChild(null));
+    }
+
+    @Test
+    void testAddAlreadyAddedChild() {
+        spoonAST.addChild(child);
+        spoonAST.addChild(child);
+        assertThat(spoonAST.getChildren().size()).isEqualTo(1);
+        assertThat(child.getChildren().size()).isEqualTo(0);
+    }
+
+    @Test
+    void test() {
     }
 }
