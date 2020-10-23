@@ -20,6 +20,24 @@
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.1</version>
+                <executions>
+                    <execution>
+                        <id>compile-with-error-prone</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>compile</goal>
+                        </goals>
+                        <configuration>
+                            <compilerArgs>
+                                <arg>-d</arg>
+                                <arg>${project.build.directory}/classes-ep</arg>
+                            </compilerArgs>
+                            <compilerId>javac-with-errorprone</compilerId>
+                            <forceJavacCompilerUse>true</forceJavacCompilerUse>
+                            <useIncrementalCompilation>true</useIncrementalCompilation>
+                        </configuration>
+                    </execution>
+                </executions>
                 <configuration>
                     <release>11</release>
                     <compilerArgs combine.children="append">
