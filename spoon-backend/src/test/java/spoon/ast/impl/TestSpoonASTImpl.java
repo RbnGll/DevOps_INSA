@@ -1,13 +1,14 @@
 package spoon.ast.impl;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import spoon.ast.api.SpoonAST;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -22,6 +23,12 @@ public class TestSpoonASTImpl {
         spoonAST = new SpoonASTImpl("label", "tooltip", 0, 10);
         parent = new SpoonASTImpl("parent", "tooltiparent",0,100);
         child = new SpoonASTImpl("child","tooltipchild", 1,10);
+    }
+
+    private static Stream <Arguments> provideToStringParameters() {
+        return Stream.of(
+                Arguments.of(new SpoonASTImpl("label", "tooltip", 0, 10), "SpoonASTImpl[label=label, tooltip='tooltip', startPosition=0, endPosition=10, children=[]]")
+        );
     }
 
      // @Test
@@ -110,23 +117,23 @@ public class TestSpoonASTImpl {
         assertThat(child.getParent().get()).isEqualTo(spoonAST);
     }
 
-    // @Test
-    // void testAddChildren() {
-    //     List<SpoonAST> children = Stream.of(
-    //             child,
-    //             new SpoonASTImpl("child2","tooltipchild2",2,10),
-    //             new SpoonASTImpl("child3","tooltipchild3",3,10)
-    //     ).collect(Collectors.toList());
+    @Test
+    void testAddChildren() {
+        List<SpoonAST> children = Stream.of(
+                child,
+                new SpoonASTImpl("child2", "tooltipchild2", 2, 10),
+                new SpoonASTImpl("child3", "tooltipchild3", 3, 10)
+        ).collect(Collectors.toList());
 
-    //     children.forEach(spoonAST1 -> spoonAST.addChild(spoonAST1));
-    //     assertThat(spoonAST.getChildren().size()).isEqualTo(3);
-    //     children.forEach(spoonAST1 -> assertThat(spoonAST1.getParent()).isPresent());
-    //     children.forEach(spoonAST1 -> assertThat(spoonAST1.getParent().get()).isEqualTo(spoonAST));
-    // }
+        children.forEach(spoonAST1 -> spoonAST.addChild(spoonAST1));
+        assertThat(spoonAST.getChildren().size()).isEqualTo(3);
+        children.forEach(spoonAST1 -> assertThat(spoonAST1.getParent()).isPresent());
+        children.forEach(spoonAST1 -> assertThat(spoonAST1.getParent().get()).isEqualTo(spoonAST));
+    }
 
     @Test
     void testAddNullChild() {
-        assertThrows(IllegalArgumentException.class, () -> spoonAST.addChild(null));
+        assertThrows(NullPointerException.class, () -> spoonAST.addChild(null));
     }
 
     @Test
@@ -137,7 +144,9 @@ public class TestSpoonASTImpl {
         assertThat(child.getChildren().size()).isEqualTo(0);
     }
 
-    @Test
-    void test() {
+    @ParameterizedTest
+    @MethodSource("provideToStringParameters")
+    void testToString(SpoonAST spoonAST, String expectedString) {
+        assertThat(spoonAST.toString()).isEqualTo(expectedString);
     }
 }
