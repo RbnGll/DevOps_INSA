@@ -8,6 +8,8 @@ import spoon.ast.builder.SpoonTreeCmdBase;
 import javax.inject.Singleton;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import java.net.HttpURLConnection;
 import java.util.Optional;
 
 @Singleton
@@ -24,9 +26,8 @@ public class SpoonResource {
     @Path("ast")
     public SpoonAST createAST(final CodeDTO code) {
         final var okLevel = TreeLevel.from(code.level);
-
         if (okLevel.isEmpty()) {
-            throw new WebApplicationException("Incorect level");
+            throw new WebApplicationException("Incorrect level");
         }
 
         final var cmd = new SpoonTreeCmdBase(true, code.code, okLevel.get());

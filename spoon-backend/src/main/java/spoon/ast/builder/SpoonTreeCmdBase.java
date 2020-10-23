@@ -13,7 +13,7 @@
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * FITNESS FOR A PARTICULAR PURPOSE AND NON INFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
@@ -106,8 +106,8 @@ public class SpoonTreeCmdBase {
     /**
      * Tries to build the Spoon model by considering the given code as a Java expression.
      */
-    void buildExpressionLevel() {
-        buildCode("public class ShowMeYourSpoonCapsule { public Object showmeyourspoonmethod() { return "
+    @NotNull CtModel buildExpressionLevel() {
+        return buildCode("public class ShowMeYourSpoonCapsule { public Object showMeYourSpoonMethod() { return "
                 + code + ";}}", 5);
     }
 
@@ -115,7 +115,7 @@ public class SpoonTreeCmdBase {
      * Tries to build the Spoon model by considering the given code as a Java statement.
      */
     @NotNull CtModel buildStatementLevel() {
-        return buildCode("public class ShowMeYourSpoonCapsule { public void showmeyourspoonmethod() {" + code + "}}", 4);
+        return buildCode("public class ShowMeYourSpoonCapsule { public void showMeYourSpoonMethod() {" + code + "}}", 4);
     }
 
     /**
@@ -128,7 +128,8 @@ public class SpoonTreeCmdBase {
     /**
      * Tries to build the Spoon model by considering the given code as a Java class.
      */
-    void buildClassLevel() {
+    @NotNull
+    CtModel buildClassLevel() {
         CtModel model = buildCode(code, 1);
 
         if (model.getAllTypes().isEmpty()) {
@@ -142,6 +143,7 @@ public class SpoonTreeCmdBase {
         if (model.getAllTypes().isEmpty()) {
             buildExpressionLevel();
         }
+        return model;
     }
 
     public void setCode(final @NotNull String code) {
