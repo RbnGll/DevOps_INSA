@@ -47,7 +47,7 @@ public class SpoonTreeCmdBase {
     /**
      * The Java code to analyse.
      */
-    private @Nullable String code;
+    private @NotNull String code;
     private @NotNull Optional<SpoonAST> spoonAST;
 
     public SpoonTreeCmdBase(final boolean hideImplicit, final @NotNull String code, final @NotNull TreeLevel treeLevel) {

@@ -1,15 +1,10 @@
 package spoon.ast.impl;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import spoon.ast.api.SpoonAST;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -20,19 +15,19 @@ public class TestSpoonASTImpl {
     @BeforeEach
     void setUp() {
         spoonAST = new SpoonASTImpl("label", "tooltip", 0, 10);
-        parent = new SpoonASTImpl("parent", "tooltiparent",0,100);
-        child = new SpoonASTImpl("child","tooltipchild", 1,10);
+        parent = new SpoonASTImpl("parent", "tooltiparent", 0, 100);
+        child = new SpoonASTImpl("child", "tooltipchild", 1, 10);
     }
 
-     // @Test
-     // void testBaseConstructor() {
-     //     spoonAST = new SpoonASTImpl();
-     //     assertThat(spoonAST.getLabel()).isNull();
-     //     assertThat(spoonAST.getTooltip()).isNull();
-     //     assertThat(spoonAST.getStartPosition()).isEqualTo(0);
-     //     assertThat(spoonAST.getEndPosition()).isEqualTo(0);
-     //     assertThrows(NullPointerException.class, ()->spoonAST.getChildren());
-     // }
+    // @Test
+    // void testBaseConstructor() {
+    //     spoonAST = new SpoonASTImpl();
+    //     assertThat(spoonAST.getLabel()).isNull();
+    //     assertThat(spoonAST.getTooltip()).isNull();
+    //     assertThat(spoonAST.getStartPosition()).isEqualTo(0);
+    //     assertThat(spoonAST.getEndPosition()).isEqualTo(0);
+    //     assertThrows(NullPointerException.class, ()->spoonAST.getChildren());
+    // }
 
     @Test
     void testGetLabel() {
@@ -81,7 +76,7 @@ public class TestSpoonASTImpl {
 
     @Test
     void testAlreadySetParent() {
-        SpoonAST secondParent = new SpoonASTImpl("secondParent","tooltip",2,3);
+        SpoonAST secondParent = new SpoonASTImpl("secondParent", "tooltip", 2, 3);
         spoonAST.setParent(parent);
         spoonAST.setParent(secondParent);
         assertThat(spoonAST.getParent()).isNotEmpty();
@@ -90,7 +85,7 @@ public class TestSpoonASTImpl {
 
     @Test
     void testSetParentWithChild() {
-        SpoonAST secondParent = new SpoonASTImpl("secondParent","tooltip",2,3);
+        SpoonAST secondParent = new SpoonASTImpl("secondParent", "tooltip", 2, 3);
         spoonAST.setParent(parent);
         spoonAST.addChild(child);
         spoonAST.setParent(secondParent);
@@ -135,9 +130,5 @@ public class TestSpoonASTImpl {
         spoonAST.addChild(child);
         assertThat(spoonAST.getChildren().size()).isEqualTo(1);
         assertThat(child.getChildren().size()).isEqualTo(0);
-    }
-
-    @Test
-    void test() {
     }
 }

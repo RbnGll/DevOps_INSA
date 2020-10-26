@@ -63,7 +63,7 @@ public class TestSpoonResource {
                 target(baseUri)
                 .path("spoon/ast")
                 .request()
-                .post(Entity.json(new CodeDTO("","anything")));
+                .post(Entity.json(new CodeDTO("", "anything")));
         assertThat(res.getStatus()).isEqualTo(HttpURLConnection.HTTP_INTERNAL_ERROR);
     }
 }
