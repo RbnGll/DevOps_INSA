@@ -144,7 +144,7 @@ public class TestSpoonASTImpl {
 
     @Test
     void testAddNullChild() {
-        assertThrows(IllegalArgumentException.class, () -> spoonAST.addChild(null));
+        assertThrows(NullPointerException.class, () -> spoonAST.addChild(null));
     }
 
     @Test

@@ -22,7 +22,6 @@
 package spoon.ast.builder;
 
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import spoon.Launcher;
 import spoon.ast.api.SpoonAST;
 import spoon.ast.api.TreeLevel;
