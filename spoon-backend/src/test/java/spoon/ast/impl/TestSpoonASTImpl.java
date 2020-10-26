@@ -8,6 +8,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import spoon.ast.api.SpoonAST;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -73,7 +74,7 @@ public class TestSpoonASTImpl {
 
     @Test
     void testGetChildren() {
-        assertThat(spoonAST.getChildren()).isExactlyInstanceOf(ArrayList.class);
+        assertThat(spoonAST.getChildren()).isExactlyInstanceOf(Collections.unmodifiableList(new ArrayList<>()).getClass());
         assertThat(spoonAST.getChildren()).isEmpty();
     }
 
@@ -175,4 +176,6 @@ public class TestSpoonASTImpl {
         parent.removeChild(child);
         assertThat(parent.getChildren()).isEmpty();
     }
+
+
 }
