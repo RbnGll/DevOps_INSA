@@ -26,8 +26,13 @@ public class TestSpoonASTImpl {
     }
 
     private static Stream <Arguments> provideToStringParameters() {
+        SpoonAST spoonAST = new SpoonASTImpl("label", "tooltip", 0, 10);
+        SpoonAST parent = new SpoonASTImpl("parent", "tooltip", 1, 9);
+        parent.addChild(spoonAST);
+
         return Stream.of(
-                Arguments.of(new SpoonASTImpl("label", "tooltip", 0, 10), "SpoonASTImpl[label=label, tooltip='tooltip', startPosition=0, endPosition=10, children=[]]")
+                Arguments.of(spoonAST, "SpoonASTImpl[label=label, tooltip='tooltip', startPosition=0, endPosition=10, children=[]]"),
+                Arguments.of(parent, "SpoonASTImpl[label=parent, tooltip='tooltip', startPosition=1, endPosition=9, children=[SpoonASTImpl[label=label, tooltip='tooltip', startPosition=0, endPosition=10, children=[]]]]")
         );
     }
 
@@ -68,7 +73,13 @@ public class TestSpoonASTImpl {
 
     @Test
     void testGetChildren() {
-        assertThat(spoonAST.getChildren()).isEqualTo(new ArrayList<>());
+        assertThat(spoonAST.getChildren()).isExactlyInstanceOf(ArrayList.class);
+        assertThat(spoonAST.getChildren()).isEmpty();
+    }
+
+    @Test
+    void testGetAddChildren() {
+        assertThrows(UnsupportedOperationException.class, ()->spoonAST.getChildren().add(child));
     }
 
     @Test
@@ -109,7 +120,7 @@ public class TestSpoonASTImpl {
 
 
     @Test
-    void testAddChildOK() {
+    void testAddChildOk() {
         spoonAST.addChild(child);
         assertThat(spoonAST.getChildren().size()).isEqualTo(1);
         assertThat(spoonAST.getChildren().get(0)).isEqualTo(child);
@@ -148,5 +159,20 @@ public class TestSpoonASTImpl {
     @MethodSource("provideToStringParameters")
     void testToString(SpoonAST spoonAST, String expectedString) {
         assertThat(spoonAST.toString()).isEqualTo(expectedString);
+    }
+
+    @Test
+    void testRemoveChildOk() {
+        parent.addChild(child);
+        parent.removeChild(child);
+        assertThat(parent.getChildren()).isEmpty();
+        assertThat(child.getParent()).isEmpty();
+    }
+
+    @Test
+    void testRemoveNotPresentChild() {
+        assertThat(parent.getChildren()).isEmpty();
+        parent.removeChild(child);
+        assertThat(parent.getChildren()).isEmpty();
     }
 }
