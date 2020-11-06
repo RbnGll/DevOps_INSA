@@ -63,20 +63,4 @@ describe('AstComponent', () => {
     expect(component.dataSource).toBeInstanceOf(MatTreeNestedDataSource);
     expect(component.dataSource.data).toEqual(testData);
   });
-
-  it('should change view after changes', () => {
-    spyOn(component, 'ngAfterViewInit');
-    component.dataSource.data = [
-      {
-        label: 'Foo',
-        children: []
-      },
-      {
-        label: 'Bar',
-        children: []
-      }
-    ];
-    // TODO
-    expect(component.ngAfterViewInit).toHaveBeenCalled();
-  });
 });
