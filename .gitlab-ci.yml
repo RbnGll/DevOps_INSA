@@ -3,13 +3,53 @@ build-back:
   stage: build
   script:
   - cd spoon-backend
-  - mvn clean package
+  - mvn -U clean package
+  #- docker build -t bribridnl/spoon-backend:latest .
+  #- docker save spoon-backend | xz > target/spoon-backend-docker.tar.xz
+  # docker run -it --network=host --publish 4444:4444 --name spoon-backend bribridnl/spoon-backend:latest
+  #artifacts:
+  #  paths:
+  #    -spoon-backend/target/spoon-backend-1.0.0.war
+  #  expire_in: 1 hour
+
 
 build-front:
   image: node:12.13
   stage: build
+  #cache:
+  #  paths:
+  #    -node_modules/
   script:
   - cd spoon-frontend
   - npm install
-  - npm run ng build
+  - npm run ng build --prod --build-optimizer
+  #- docker build -t bribridnl/spoon-frontend:latest .
+  #- docker save spoon-frontend:latest | xz > target/spoon-frontend-docker.tar.xz
+  # docker run -d -it -p 80:80/tcp --network=host --name spoon-frontend bribridnl/spoon-frontend:latest
 
+
+
+# docker-back:
+#  image: docker:18.06
+#  stage: deploy
+#  variables:
+#    DOCKER_DRIVER: overlay2
+#    DOCKER_TLS_CERTDIR: ""
+#    GIT_SSL_NO_VERIFY: "1"
+#  dependencies:
+#    - build-back
+#  #cache:
+#  #  key: "$CI_BUILD_REF_NAME"
+#  services:
+#    - docker:18.06-dind
+#  before_script:
+#    - echo $CI_BUILD_REF_NAME
+#    - echo $CI_REGISTRY_IMAGE
+#    - docker info
+#    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+#  script:
+#    - cd game-backend
+#    - docker pull $CI_REGISTRY_IMAGE:latest || true
+#    - docker build --cache-from $CI_REGISTRY_IMAGE:latest --tag $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA --tag $CI_REGISTRY_IMAGE:latest .
+#    - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
+#    - docker push $CI_REGISTRY_IMAGE:latest

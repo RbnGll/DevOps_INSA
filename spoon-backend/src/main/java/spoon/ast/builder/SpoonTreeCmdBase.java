@@ -21,7 +21,6 @@
  */
 package spoon.ast.builder;
 
-import org.jetbrains.annotations.NotNull;
 import spoon.Launcher;
 import spoon.ast.api.SpoonAST;
 import spoon.ast.api.TreeLevel;
@@ -29,6 +28,8 @@ import spoon.compiler.Environment;
 import spoon.reflect.CtModel;
 import spoon.support.compiler.VirtualFile;
 
+import javax.validation.constraints.NotNull;
+import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -132,20 +133,27 @@ public class SpoonTreeCmdBase {
         CtModel model = buildCode(code, 1);
 
         if (model.getAllTypes().isEmpty()) {
+            // System.out.println("ClassElementLevel");
             model = buildClassElementLevel();
         }
+        // model.getAllTypes().forEach(System.out::println);
 
         if (model.getAllTypes().isEmpty()) {
+            // System.out.println("StatementLevel");
             model = buildStatementLevel();
         }
 
         if (model.getAllTypes().isEmpty()) {
+            // System.out.println("ExpressionLevel");
             buildExpressionLevel();
         }
         return model;
     }
 
     public void setCode(final @NotNull String code) {
+        if (Objects.isNull(code)) {
+            throw new IllegalArgumentException();
+        }
         this.code = code;
     }
 }
