@@ -10,7 +10,6 @@ import java.util.stream.Stream;
 import static org.junit.Assert.assertEquals;
 
 public class TestTreeLevel {
-    public TreeLevel treeLevel;
 
     private static Stream<Arguments> provideEnumValues() {
         return Stream.of(

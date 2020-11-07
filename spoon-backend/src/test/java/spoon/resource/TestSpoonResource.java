@@ -33,7 +33,7 @@ public class TestSpoonResource {
         return new ResourceConfig(SpoonResource.class)
                 .register(MoxyJsonFeature.class);
     }
-
+    @SuppressWarnings("SameParameterValue")
     <T> T logJSONAndUnmarshallValue(final Response res, final Class<T> classToRead) {
         res.bufferEntity();
         final String json = res.readEntity(String.class);
@@ -49,7 +49,7 @@ public class TestSpoonResource {
                 .target(baseUri)
                 .path("spoon/ast")
                 .request()
-                .post(Entity.json(new CodeDTO("public class Foo {private String bar = \"barbar\";}", "a")));
+                .post(Entity.json(new CodeDTO("public class Foo {private String bar = \"barBar\";}", "a")));
 
         final SpoonASTImpl spoonAST = logJSONAndUnmarshallValue(res, SpoonASTImpl.class);
 

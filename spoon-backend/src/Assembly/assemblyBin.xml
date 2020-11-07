@@ -1,0 +1,16 @@
+<assembly>
+    <id>bin</id>
+    <formats>
+        <format>bin</format>
+    </formats>
+    <fileSets>
+        <fileSet>
+            <directory>${project.basedir}</directory>
+            <includes>
+                <include>src</include>
+                <include>*.txt</include>
+                <include>pom.xml</include>
+            </includes>
+        </fileSet>
+    </fileSets>
+</assembly>

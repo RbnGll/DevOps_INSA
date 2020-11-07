@@ -1,9 +1,10 @@
 package spoon.ast.impl;
 
-import org.jetbrains.annotations.NotNull;
+
 import org.jetbrains.annotations.Nullable;
 import spoon.ast.api.SpoonAST;
 
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.*;
 import java.util.*;
 
@@ -19,6 +20,7 @@ public class SpoonASTImpl implements SpoonAST {
     @XmlElement(type = SpoonASTImpl.class)
     private List<SpoonAST> children;
 
+    @SuppressWarnings("Constructor 'SpoonASTImpl()' is never used")
     SpoonASTImpl() {
         super();
     }
@@ -60,6 +62,9 @@ public class SpoonASTImpl implements SpoonAST {
 
     @Override
     public void addChild(final @NotNull SpoonAST node) {
+        if (Objects.isNull(node)) {
+            throw new IllegalArgumentException();
+        }
         if (!children.contains(node)) {
             children.add(node);
             node.setParent(this);
