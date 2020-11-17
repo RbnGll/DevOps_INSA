@@ -55,6 +55,7 @@ describe('UpdateCode', () => {
 
   it('should create UpdateCode instance of CommandImpl', () => {
     update = new UpdateCode(httpClient, dataSource);
+    expect(update).toBeTruthy();
     expect(update).toBeInstanceOf(CommandImpl);
   });
 
