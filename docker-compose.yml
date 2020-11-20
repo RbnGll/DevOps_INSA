@@ -1,0 +1,9 @@
+services:
+  back:
+    build: spoon-backend
+    ports:
+      - "4444:4444"
+  front:
+    build: spoon-frontend
+    ports:
+    - "8080:8080"

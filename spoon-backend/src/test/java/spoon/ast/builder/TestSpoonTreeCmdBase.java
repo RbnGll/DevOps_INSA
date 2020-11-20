@@ -87,7 +87,7 @@ class TestSpoonTreeCmdBase {
 
     @Test
     void testBuildExpressionLevelOk() {
-        analyser  = new SpoonTreeCmdBase(true, "2", TreeLevel.EXPRESSION);
+        analyser = new SpoonTreeCmdBase(true, "2", TreeLevel.EXPRESSION);
         SpoonAST spoonAST = analyser.execute().orElseThrow();
 
         assertThat(spoonAST.getChildren()).hasSize(1);

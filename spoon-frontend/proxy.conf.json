@@ -1,6 +1,6 @@
 {
   "/spoon/*": {
-    "target": "http://localhost:4444",
+    "target": "http://0.0.0.0:4444",
     "secure": false,
     "logLevel": "debug",
     "changeOrigin": true
