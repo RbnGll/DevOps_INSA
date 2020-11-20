@@ -33,6 +33,7 @@ public class TestSpoonResource {
         return new ResourceConfig(SpoonResource.class)
                 .register(MoxyJsonFeature.class);
     }
+
     @SuppressWarnings("SameParameterValue")
     <T> T logJSONAndUnmarshallValue(final Response res, final Class<T> classToRead) {
         res.bufferEntity();

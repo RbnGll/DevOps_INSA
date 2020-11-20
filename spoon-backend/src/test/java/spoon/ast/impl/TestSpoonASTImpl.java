@@ -19,13 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class TestSpoonASTImpl {
     public SpoonAST spoonAST, parent, child;
 
-    @BeforeEach
-    void setUp() {
-        spoonAST = new SpoonASTImpl("label", "tooltip", 0, 10);
-        parent = new SpoonASTImpl("parent", "tooltiparent", 0, 100);
-        child = new SpoonASTImpl("child", "tooltipchild", 1, 10);
-    }
-    private static Stream <Arguments> provideToStringParameters() {
+    private static Stream<Arguments> provideToStringParameters() {
         SpoonAST spoonAST = new SpoonASTImpl("label", "tooltip", 0, 10);
         SpoonAST parent = new SpoonASTImpl("parent", "tooltip", 1, 9);
         parent.addChild(spoonAST);
@@ -36,15 +30,22 @@ public class TestSpoonASTImpl {
         );
     }
 
-     // @Test
-     // void testBaseConstructor() {
-     //     spoonAST = new SpoonASTImpl();
-     //     assertThat(spoonAST.getLabel()).isNull();
-     //     assertThat(spoonAST.getTooltip()).isNull();
-     //     assertThat(spoonAST.getStartPosition()).isEqualTo(0);
-     //     assertThat(spoonAST.getEndPosition()).isEqualTo(0);
-     //     assertThrows(NullPointerException.class, ()->spoonAST.getChildren());
-     // }
+    @BeforeEach
+    void setUp() {
+        spoonAST = new SpoonASTImpl("label", "tooltip", 0, 10);
+        parent = new SpoonASTImpl("parent", "tooltiparent", 0, 100);
+        child = new SpoonASTImpl("child", "tooltipchild", 1, 10);
+    }
+
+    // @Test
+    // void testBaseConstructor() {
+    //     spoonAST = new SpoonASTImpl();
+    //     assertThat(spoonAST.getLabel()).isNull();
+    //     assertThat(spoonAST.getTooltip()).isNull();
+    //     assertThat(spoonAST.getStartPosition()).isEqualTo(0);
+    //     assertThat(spoonAST.getEndPosition()).isEqualTo(0);
+    //     assertThrows(NullPointerException.class, ()->spoonAST.getChildren());
+    // }
 
     @Test
     void testGetLabel() {
@@ -79,7 +80,7 @@ public class TestSpoonASTImpl {
 
     @Test
     void testGetAddChildren() {
-        assertThrows(UnsupportedOperationException.class, ()->spoonAST.getChildren().add(child));
+        assertThrows(UnsupportedOperationException.class, () -> spoonAST.getChildren().add(child));
     }
 
     @Test
@@ -139,6 +140,7 @@ public class TestSpoonASTImpl {
         children.forEach(spoonAST1 -> spoonAST.addChild(spoonAST1));
         assertThat(spoonAST.getChildren().size()).isEqualTo(3);
         children.forEach(spoonAST1 -> assertThat(spoonAST1.getParent()).isPresent());
+        //noinspection OptionalGetWithoutIsPresent
         children.forEach(spoonAST1 -> assertThat(spoonAST1.getParent().get()).isEqualTo(spoonAST));
     }
 
