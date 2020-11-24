@@ -8,7 +8,6 @@ import org.glassfish.jersey.server.ResourceConfig;
 import spoon.resource.SpoonResource;
 
 import javax.ws.rs.client.ClientBuilder;
-import java.io.IOException;
 import java.net.URI;
 
 public final class Main {
@@ -37,7 +36,7 @@ public final class Main {
 
     // http://localhost:4444/swag/index.html
     // curl -X POST "http://localhost:4444/spoon/ast" -H  "accept: application/json" -H  "Content-Type: application/json" -d "{  \"code\": \"class Foo {}\",  \"level\": \"a\"}"
-    public static void main(final String[] args) throws IOException {
+    public static void main(final String[] args) {
         final HttpServer server = startServer();
         // Required to access the web pages stored in the webapp folder.
         final ClassLoader loader = Main.class.getClassLoader();
@@ -46,8 +45,11 @@ public final class Main {
 
         server.getServerConfiguration().addHttpHandler(docsHandler, "/swag/");
         ClientBuilder.newClient().target(HTTP_ADDRESS);
-        //noinspection ResultOfMethodCallIgnored
-        System.in.read();
+        try {
+            Thread.currentThread().join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         server.shutdownNow();
     }
 }
