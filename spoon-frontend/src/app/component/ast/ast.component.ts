@@ -64,6 +64,10 @@ export class AstComponent implements AfterViewInit {
     this.dataSource.data = testData;
   }
 
+  getCode(): ElementRef {
+    return this.code;
+  }
+
   ngAfterViewInit(): void {
     textInputBinder()
       .on(this.code.nativeElement)
