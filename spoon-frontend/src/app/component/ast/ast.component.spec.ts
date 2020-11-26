@@ -4,6 +4,8 @@ import {AstComponent, ASTNode} from './ast.component';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
 import {NestedTreeControl} from '@angular/cdk/tree';
 import {MatTreeNestedDataSource} from '@angular/material/tree';
+import {CommandsRegistry} from 'interacto';
+import {UpdateCode} from '../../command/update-code';
 
 describe('AstComponent', () => {
   let component: AstComponent;
@@ -62,5 +64,36 @@ describe('AstComponent', () => {
   it('should have a dataSource', () => {
     expect(component.dataSource).toBeInstanceOf(MatTreeNestedDataSource);
     expect(component.dataSource.data).toEqual(testData);
+  });
+
+  it('hasChild should be true if element have child', () => {
+    const data: ASTNode = {
+      label : 'Foo',
+      children : [ {label : 'bar'}]
+    };
+    expect(component.hasChild(0, data)).toBeTrue();
+  });
+
+  it('hasChild should be false if element have no child', () => {
+    const data: ASTNode = {
+      label : 'Foo'
+    };
+    expect(component.hasChild(0, data)).toBeFalse();
+  });
+
+  it('should update code when writing in the TextInput', () => {
+    jasmine.clock().install();
+    component.getCode().nativeElement.value = 'f';
+    component.getCode().nativeElement.dispatchEvent(new InputEvent('input'));
+    component.getCode().nativeElement.value = 'fo';
+    component.getCode().nativeElement.dispatchEvent(new InputEvent('input'));
+    component.getCode().nativeElement.value = 'foo';
+    component.getCode().nativeElement.dispatchEvent(new InputEvent('input'));
+    jasmine.clock().tick(1000);
+    expect(component.getCode().nativeElement.value).toEqual('foo');
+
+    expect(CommandsRegistry.getInstance().getCommands().length).toEqual(1);
+    expect(CommandsRegistry.getInstance().getCommands()[0]).toBeInstanceOf(UpdateCode);
+    jasmine.clock().uninstall();
   });
 });
