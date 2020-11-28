@@ -8,4 +8,19 @@ export class AppPage {
   getTitleText(): Promise<string> {
     return element(by.tagName('h1')).getText() as Promise<string>;
   }
+
+  getTextArea(): Promise<string>{
+    return element(by.tagName('textarea')).getAttribute('value') as Promise<string>;
+  }
+
+  writeText(txt: string): void{
+    browser.actions()
+      .click(element(by.tagName('textarea')))
+      .sendKeys(txt)
+      .perform();
+  }
+
+  countTree(): Promise<string> {
+    return element(by.tagName('mat-tree')).getAttribute('value') as Promise<string>;
+  }
 }
