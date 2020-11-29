@@ -13,19 +13,21 @@ describe('workspace-project App', () => {
     expect(page.getTitleText()).toEqual('Spoon AST visualiser');
   });
 
-  // it('textarea should be writeable', () => {
-  //   page.navigateTo();
-  //   page.writeText('Foo Bar');
-  //   const textarea = page.getTextArea();
-  //   expect(textarea).toEqual('Foo Bar');
-  // });
-  //
+  it('textarea should be writeable', () => {
+    page.navigateTo();
+    page.writeText('Foo Bar');
+    const textarea = page.getTextAreaValue();
+    expect(textarea).toEqual('Foo Bar');
+  });
+
   // it('should count tree size', () => {
   //   page.navigateTo();
-  //   page.writeText('public class hello {}');
+  //   page.writeText('public class hello {' +
+  //     ' private string name;' +
+  //     ' public Hello(String txt){this.name = txt;}' +
+  //     '}');
   //   const count = page.countTree();
-  //   console.log(count);
-  //   expect(count).toEqual(1);
+  //   expect(count).toEqual(3);
   // });
 
   afterEach(async () => {
