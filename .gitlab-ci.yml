@@ -1,4 +1,4 @@
-include: 
+include:
   - template: Code-Quality.gitlab-ci.yml
 
 code_quality:
@@ -10,8 +10,8 @@ build-back:
   image: maven:3.6.2-jdk-11
   stage: build
   script:
-  - cd spoon-backend
-  - mvn -U clean package
+    - cd spoon-backend
+    - mvn -U clean package
   #- docker build -t bribridnl/spoon-backend:latest .
   #- docker save spoon-backend | xz > target/spoon-backend-docker.tar.xz
   # docker run -it --publish 4444:4444 --name spoon-backend bribridnl/spoon-backend:latest
@@ -42,7 +42,7 @@ build-front:
 
 test-front-karma:
   image: trion/ng-cli-karma:latest
-  stage: test-front
+  stage: test
   dependencies:
     - build-front
   script:
@@ -53,7 +53,7 @@ test-front-karma:
 
 test-front-e2e:
   image: trion/ng-cli-e2e:latest
-  stage: test-e2e
+  stage: test
   dependencies:
     - build-back
   allow_failure: true
