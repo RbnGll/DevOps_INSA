@@ -1,0 +1,30 @@
+version: "3.8"
+services:
+  spoon-backend:
+    container_name: spoon-backend-service
+    build: spoon-backend
+    ports:
+    - "4444:4444"
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+
+  spoon-frontend:
+    container_name: spoon-frontend-service
+    build: spoon-frontend
+    depends_on:
+      - spoon-backend
+    network_mode: host
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+
+
