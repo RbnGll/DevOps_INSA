@@ -1,4 +1,4 @@
-import { browser, by, element } from 'protractor';
+import {browser, by, element} from 'protractor';
 
 export class AppPage {
   navigateTo(): Promise<unknown> {
@@ -21,4 +21,12 @@ export class AppPage {
   countTree(): Promise<number> {
     return element(by.tagName('mat-tree')).all(by.tagName('ul')).count() as Promise<number>;
   }
+
+  // getMatTreeValue(): any {
+  //   let arrayString = new Array();
+  //   element.all(by.className('mat-tree-node')).each(
+  //     el => console.log(el.getText())
+  //   );
+  //   return arrayString;
+  // }
 }

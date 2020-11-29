@@ -31,6 +31,8 @@ describe('workspace-project App', () => {
   // it('mat-tree should fit with text area', () => {
   //   page.navigateTo();
   //   page.writeText('public class hello {}');
+  //   console.log(page.getMatTreeValue());
+  //   // expect(page.getMatTreeValue()).toEqual(['']);
   // });
 
   afterEach(async () => {
