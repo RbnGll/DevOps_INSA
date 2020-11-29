@@ -10,18 +10,21 @@ const { SpecReporter, StacktraceOption } = require('jasmine-spec-reporter');
 exports.config = {
   allScriptsTimeout: 11000,
   specs: [
-    './src/**/*.e2e-spec.ts'
+    './src/app.e2e-spec.ts',
+    './specs/app.po.js'
   ],
   capabilities: {
-    directConnect: true,
-    browserName: 'chrome',
-    chromeOptions:{
-      args : ["--headless","--disable-gpu", "--window-size=800x600"]
+    'directConnect': true,
+    'browserName': 'chrome',
+    chromeOptions: {
+      args: ["--headless", "--disable-gpu", "--window-size=800x600"]
     }
   },
-  baseUrl: 'http://localhost:4200/',
+  directConnect: true,
+  baseUrl: 'http://localhost:8080/',
   framework: 'jasmine',
   jasmineNodeOpts: {
+    showColors: true,
     defaultTimeoutInterval: 30000,
     print: function() {}
   },
