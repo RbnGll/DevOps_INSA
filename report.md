@@ -1,5 +1,5 @@
 # Report 
-Ce fichier synthétise les modifications que nous avons apporté au projet de base.
+Ce fichier synthétise les modifications que nous avons apportées au projet de base.
 
 ## Présentation
 Nous avons présenté l'article *State of mutation testing at google*, notre présentation se trouve à la racine du projet.
@@ -16,33 +16,47 @@ Le code source est disponible sur Gitlab à l'adresse suivante : https://gitlab.
 Pour tester le backend, nous avons définis les classes de test `TestTreeLevel`, `TestSpoonTreeCmdBase`, `TestSpoonASTImpl`, `TestCodeDTO` et `TestSpoonResource`. 
 
 Avec Jacoco comme outil de couverture, nous obtenons les résultats suivants : 
- - 91% d'instructions couvertes ,
- - 87% de branches couvertes.
+ - 91 % d'instructions couvertes ,
+ - 87 % de branches couvertes.
  Un rapport plus détaillé est disponible dans le dossier target/site/jacoco/index.html après un build réussi. (`mvn clean package`)
- Pour s'assurer une couverture satisfaisante nous avons défini un seuil minimum de 60% de couverture d'insructions et toutes les classes exceptées la classe Main couverte.
- To ensure code coverage we defined a minimum of 60% line coverage and 0 classes not testedin the pom.xml file. 
+ 
+ Pour s'assurer une couverture satisfaisante nous avons défini un seuil minimum de 60 % de couverture d'instructions et toutes les classes exceptées la classe Main couverte. 
  
 **Code style** :
  
-- Checkstyle avec la configuration checktyle.xml
+- Checkstyle avec la configuration checkstyle.xml
 - Spotbugs en excluant les bugs définis dans le fichier spotbugs-exclude.xml
 - Errorprone à la compilation, défini dans le fichier pom.xml
 
-**Test par mutation**:
-Avec le moteur de mutation extreme Descartes, nous obtenons un taux de mutants tués de 48%.
+**Test par mutation** :
+Avec le moteur de mutation extreme Descartes, nous obtenons un taux de mutants tués de 48 %.
 ### Frontend
- 
+**Coverage** : 
+
+Pour tester le frontend, les fichiers de tests karma sont les fichiers : `app.component.spec.ts`, `ast.component.spec.ts`, `update-code.spec.ts`.
+L'outil de couverture de code IstanbulCoverage de Karma nous donne les résultats suivants : 
+- Instructions  : 96 % ( 24/25 )
+- Branches      : 100 % ( 2/2 )
+- Fonctions     : 90.91 % ( 10/11 )
+- Lignes        : 100 % ( 20/20 )
+
+**Code style** :
+- tslint avec la configuration `tslint.json`
+
+**Test E2E** :
+Avec l'outil Protractor nous avons pu procéder à des tests E2E dans le fichier `app.e2e-spec.ts`.
+
 ## Build
 ### Backend
-A l'aide de Maven nous avons défini dans le fichier pom.xml l'enchainement d'opérations pour compiler le backend.  
+À l'aide de Maven nous avons défini dans le fichier pom.xml l'enchainement d'opérations pour compiler le backend.  
 On compile le backend avec la commande `mvn clean package`, le code est alors compilé et vérifié via errorprone. Les tests sont ensuite lancés, puis les tests par mutation. Ensuite nous avons utilisé le plugin shade pour créer une archive *.jar* rassemblant le backend et toutes ses dépendances. Le plugin assembly permet également d'exporter les fichiers sources. 
 
 Tout cela est défini dans le fichier *pom.xml*
 
 ## Package
-A la racine de chaque sous partie (spoon-backend et spoon-frontend) se trouvent des fichier Dockerfile permettant de construire des images docker pour faire tourner le backend et le frontend séparément (micro-services).
+À la racine de chaque sous-partie (spoon-backend et spoon-frontend) se trouvent des fichiers Dockerfile permettant de construire des images docker pour faire tourner le backend et le frontend séparément (micro-services).
 ## Deploy
-A chaque fois que le build réussit, les images construites sont poussées vers la Docker Registry de l'INSA Rennes.
+À chaque fois que le build réussit, les images construites sont poussées vers la Docker Registry de l'INSA Rennes.
 
 ## Run en local
 Il y a plusieurs manières pour faire tourner l'application en local. 
@@ -59,13 +73,13 @@ Nous avons tenté d'utiliser l'outil d'analyse de code de GitLab CI intitulé co
 
 Pour approfondir le côté Ops du projet nous avons décidé de déployer l'application. 
 Pour cela nous avons crée un compte google et déployé l'application sur Google Kubernetes Engine (GKE), la plateforme dédiée à Kubernetes de Google Cloud Provider. 
-A l'aide des images Docker nous avons alors déployé l'application en tant que micro-services sur Kubernetes et exposé le frontend à l'aide d'un service spécifique nommé LoadBalancer. 
+À l'aide des images Docker nous avons alors déployé l'application en tant que micro-services sur Kubernetes et exposé le frontend à l'aide d'un service spécifique nommé LoadBalancer. 
 Ce dernier permet d'obtenir une adresse IP publique pour un service. 
 
 Nous avons ensuite acheté le domaine spoon-online.fr sur Ionos et créé un enregistrement A pour faire pointer le domaine vers l'adresse IP du service frontend. 
 Notre application est donc publiquement accessible : www.spoon-online.fr
 
 ## Monitor
-Avec notre application déployée sur GKE, il est très facile de surveiller les données de l'applicaton en temps réel avec leur outil Cloud Monitoring. En théorie le A/B testing est également relativement facile à mettre en place à l'aide du LoadBalancer service, malheureusement nous n'avons pas pu le tester.
+Avec notre application déployée sur GKE, il est très facile de surveiller les données de l'application en temps réel avec leur outil Cloud Monitoring. En théorie le A/B testing est également relativement facile à mettre en place à l'aide du LoadBalancer service, malheureusement nous n'avons pas pu le tester.
  
 
