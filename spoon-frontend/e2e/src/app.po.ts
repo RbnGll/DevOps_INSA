@@ -14,10 +14,11 @@ export class AppPage {
   }
 
   writeText(txt: string): void {
+    browser.findElement(by.tagName('textarea')).clear();
     browser.actions().click(element(by.tagName('textarea'))).sendKeys(txt).perform();
   }
 
-  countTree(): Promise<string> {
-    return element(by.tagName('mat-tree')).getAttribute('value') as Promise<string>;
+  countTree(): Promise<number> {
+    return element(by.tagName('mat-tree')).all(by.tagName('ul')).count() as Promise<number>;
   }
 }

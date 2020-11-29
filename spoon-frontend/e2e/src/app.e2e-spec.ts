@@ -8,7 +8,7 @@ describe('workspace-project App', () => {
     page = new AppPage();
   });
 
-  it('should display welcome message', () => {
+  it('should display title', () => {
     page.navigateTo();
     expect(page.getTitleText()).toEqual('Spoon AST visualiser');
   });
@@ -20,14 +20,17 @@ describe('workspace-project App', () => {
     expect(textarea).toEqual('Foo Bar');
   });
 
-  // it('should count tree size', () => {
+  it('mat-tree size should fit with text area', () => {
+    page.navigateTo();
+    expect(page.countTree()).toEqual(4);
+    page.writeText('public class hello {}');
+    expect(page.countTree()).toEqual(1);
+  });
+
+  // TODO
+  // it('mat-tree should fit with text area', () => {
   //   page.navigateTo();
-  //   page.writeText('public class hello {' +
-  //     ' private string name;' +
-  //     ' public Hello(String txt){this.name = txt;}' +
-  //     '}');
-  //   const count = page.countTree();
-  //   expect(count).toEqual(3);
+  //   page.writeText('public class hello {}');
   // });
 
   afterEach(async () => {
