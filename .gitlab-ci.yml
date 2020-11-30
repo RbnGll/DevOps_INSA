@@ -51,22 +51,22 @@ test-front-karma:
     - npm run ng test
 
 
-test-front-e2e:
-  image: trion/ng-cli-e2e:latest
-  stage: test
-  dependencies:
-    - build-back
-  allow_failure: true
-  script:
-    - echo 'deb http://ftp.debian.org/debian stretch-backports main' | tee /etc/apt/sources.list.d/strecth-backports.list
-    - apt-get update
-    - apt-get install -y openjdk-11-jre-headless
-    - update-alternatives --auto java
-    - java -version
-    - java -jar ./spoon-web/spoon-backend/target/spoon-backend-1.0.0.jar &
-    - cd spoon-web/spoon-frontend
-    - npm install
-    - npm run ng e
+#test-front-e2e:
+#  image: trion/ng-cli-e2e:latest
+#  stage: test
+#  dependencies:
+#    - build-back
+#  allow_failure: true
+#  script:
+#    - echo 'deb http://ftp.debian.org/debian stretch-backports main' | tee /etc/apt/sources.list.d/strecth-backports.list
+#    - apt-get update
+#    - apt-get install -y openjdk-11-jre-headless
+#    - update-alternatives --auto java
+#    - java -version
+#    - java -jar ./spoon-web/spoon-backend/target/spoon-backend-1.0.0.jar &
+#    - cd spoon-web/spoon-frontend
+#    - npm install
+#    - npm run ng e
 
 docker-back:
   image: docker:18.06
